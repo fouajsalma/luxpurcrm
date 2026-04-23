@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
+import api from "../services/api";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -52,13 +52,13 @@ export default function Home() {
   }
 
   return (
-    <div className="home-container">
+    <div className="home-page">
       {/* Barre de navigation */}
       <nav className="home-nav">
         <span className="nav-logo">Luxpure CRM</span>
         <div className="nav-right">
           {user && (
-            <span className="user-name">{user.nom} {user.prenom}</span>
+            <span className="user-name">{user.nom}</span>
           )}
           <button onClick={handleLogout} className="logout-btn">
             Sign out 
@@ -68,20 +68,20 @@ export default function Home() {
 
       {/* Box avec les 4 items */}
       <div className="home-box">
-        <div className="home-item">
-           <img src="/calendrier.png"  className="item-icon" />
+        <div className="home-item" onClick={() => navigate("/calendar")}>
+           <img src="/calendrier.png" className="item-icon" />
           <span>Calendrier</span>
         </div>
         <div className="home-item">
-          <img src="/contact.png" alt="Contact" className="item-icon" />
+          <img src="/contact.png"  className="item-icon" />
           <span>Contact</span>
         </div>
         <div className="home-item">
-          <img src="/odoo-crm.png" alt="CRM" className="item-icon" />
+          <img src="/crm.png" className="item-icon" />
           <span>CRM</span>
         </div>
         <div className="home-item">
-          <img src="/dashboard.png" alt="Tableau de bord" className="item-icon" />
+          <img src="/Tableau_de_bord.png"  className="item-icon" />
           <span>Tableau de bord</span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
+import api from "../services/api";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Register() {
     password_confirmation: "",
   });
   const [errors, setErrors] = useState(null);
-
+  const [success, setSuccess] = useState("");
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -29,8 +29,10 @@ export default function Register() {
     try {
       const res = await api.post("/register", form);
       localStorage.setItem("token", res.data.token);
-      alert("Inscription réussie !");
-      navigate("/login");
+      setSuccess("Inscription réussie !");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     } catch (err) {
       console.error(err.response?.data || err.message);
       setErrors(err.response?.data?.errors || err.response?.data || { message: err.message });
@@ -38,17 +40,44 @@ export default function Register() {
   };
 
   return (
-    <div className="split-container">
-      {/* Partie gauche : texte d'accueil */}
-      <div className="left-panel">
-        <h1 className="welcome-title-register">Create your Account</h1>
+    <div className="auth-container fade-in">
+
+      <div className="auth-left slide-left">
+        <h1>Create your Account</h1>
+        <p>Gérez vos leads,suiver vos équipes et développez votre business.</p>
+        {/* CARDS SECTION */}
+        <div className="info-cards">
+
+          <div className="info-card">
+            <img src="/icons/analytics.png" />
+            <h3><span>Analytics</span><br />
+              Track your performance easily</h3>
+          </div>
+
+          <div className="info-card">
+            <img src="/icons/security.png" />
+            <h3><span>Security</span><br />
+              Your data is fully protected</h3>
+          </div>
+
+          <div className="info-card">
+            <img src="/icons/automation.png" />
+            <h3><span>Automation</span><br />
+              Save time with smart tools</h3>
+          </div>
+
+        </div>
       </div>
 
-      {/* Partie droite : formulaire */}
-      <div className="right-panel">
-        <div className="form-container ">
-          <h2>Sign up</h2>
+      <div className="auth-right slide-right">
+        <div className="auth-box zoom-in">
 
+          <h2>Sign up</h2>
+          {success && (
+            <div className="success-message">
+              ✔ {success}
+            </div>
+          )}
           {errors && (
             <div className="error">
               {Object.entries(errors).map(([field, messages]) => (
@@ -59,49 +88,58 @@ export default function Register() {
             </div>
           )}
 
-          <form onSubmit={submit}>
+          <form onSubmit={submit} className="form-animate register-form">
             <input
+              type="text"
               name="nom"
-              value={form.nom}
               placeholder="Nom"
+              value={form.nom}
               onChange={handleChange}
               required
             />
             <input
+              type="text"
               name="prenom"
-              value={form.prenom}
               placeholder="Prénom"
+              value={form.prenom}
               onChange={handleChange}
               required
             />
             <input
-              name="email"
               type="email"
-              value={form.email}
+              name="email"
               placeholder="Email"
+              value={form.email}
               onChange={handleChange}
               required
             />
             <input
               type="password"
               name="password"
-              value={form.password}
               placeholder="Mot de passe"
+              value={form.password}
               onChange={handleChange}
               required
             />
             <input
               type="password"
               name="password_confirmation"
-              value={form.password_confirmation}
               placeholder="Confirmation mot de passe"
+              value={form.password_confirmation}
               onChange={handleChange}
               required
             />
+
             <button type="submit">S'inscrire</button>
           </form>
+
+          <p className="switch">
+            Déjà un compte ? <a href="/login">Se connecter</a>
+          </p>
+
         </div>
       </div>
+
     </div>
   );
 }

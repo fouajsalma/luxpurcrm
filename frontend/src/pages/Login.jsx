@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
+import api from "../services/api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function Login() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [success, setSuccess] = useState("");
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
@@ -24,8 +24,10 @@ export default function Login() {
     try {
       const res = await api.post("/login", form);
       localStorage.setItem("token", res.data.token);
-      alert("Connexion réussie !");
-      navigate("/home");
+      setSuccess("Connexion réussie !");
+      setTimeout(() => {
+        navigate("/home");
+      }, 1500);
     } catch (err) {
       console.error(err.response?.data);
       setError(
@@ -37,47 +39,82 @@ export default function Login() {
   };
 
   return (
-    <div className="split-container">
-      {/* Partie gauche : texte d'accueil */}
-      <div className="left-panel">
-        <h1 className="welcome-title">Welcome!</h1>
-        <p className="welcome-text">
-          Gérez vos prospects, clients et collaborateurs depuis une plateforme unique.
-          Suivez l'historique des échanges, planifiez des rendez-vous et analysez vos
-          performances commerciales en temps réel.
-        </p>
+    <div className="auth-container auth-page fade-in">
+
+      <div className="auth-left slide-left">
+        <h1>Welcome back</h1>
+        <p>Connectez-vous et continuez à gérer vos leads.</p>
+        {/* CARDS SECTION */}
+        <div className="info-cards">
+
+          <div className="info-card">
+            <img src="/icons/analytics.png" />
+            <h3>Accés rapide <br />
+              Retrouvez vos données et vos leads en un clic. </h3>
+          </div>
+
+          <div className="info-card">
+            <img src="/icons/security.png" />
+            <h3>Collaboration d'équipe<br />
+              Travaillez efficacement avec votre équipe.</h3>
+          </div>
+          <div className="info-card">
+            <img src="/icons/automation.png" />
+            <h3>
+              Sécurité<br />
+              Nous protégeons vos informations à chaque connexion.
+            </h3>
+          </div>
+        </div>
       </div>
-    
-      {/* Partie droite : formulaire */}
-      <div className="right-panel">
-        <div className="form-container">
+
+
+
+      <div className="auth-right slide-right">
+        <div className="auth-box zoom-in">
+
           <h2>Sign in</h2>
-          
+         {success && (<div className="success-message"> ✔ {success} </div>
+)}
           {error && <div className="error">{error}</div>}
-          
-          <form onSubmit={handleSubmit}>
+
+          <form onSubmit={handleSubmit} className="form-animate login-form">
             <input
-              name="email"
               type="email"
+              name="email"
               placeholder="Email"
               value={form.email}
               onChange={handleChange}
               required
             />
             <input
-              name="password"
               type="password"
+              name="password"
               placeholder="Mot de passe"
               value={form.password}
               onChange={handleChange}
               required
             />
+
+            <div className="options">
+              <label>
+                <input type="checkbox" /> Se souvenir de moi
+              </label>
+              <span className="forgot">Mot de passe oublié ?</span>
+            </div>
+
             <button type="submit" disabled={loading}>
               {loading ? "Connexion..." : "Se connecter"}
             </button>
           </form>
+
+          <p className="switch">
+            Pas de compte ? <a href="/register">S'inscrire</a>
+          </p>
+
         </div>
       </div>
+
     </div>
   );
 }
