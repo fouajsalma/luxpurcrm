@@ -1,8 +1,12 @@
 <?php
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\LeadController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -22,3 +26,4 @@ Route::middleware('auth:api')->group(function () {
 Route::apiResource('leads', LeadController::class);
 Route::apiResource('clients', ClientController::class);
 Route::apiResource('tasks', TaskController::class);
+Route::get('/categories', [CategoryController::class, 'index']);

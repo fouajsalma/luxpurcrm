@@ -18,9 +18,8 @@ return new class extends Migration
     $table->string('contact_name')->nullable();
     $table->string('contact_email')->nullable();
     $table->string('contact_phone')->nullable();
-
     $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-
+    $table->enum('status', ['active', 'inactive'])->default('active');
     $table->timestamps();
 });
     }

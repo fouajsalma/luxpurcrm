@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import api from "../../services/api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -43,14 +43,14 @@ export default function Login() {
 
       <div className="auth-left slide-left">
         <h1>Welcome back</h1>
-        <p>Connectez-vous et continuez à gérer vos leads.</p>
+        <p>Connectez-vous et continuez à gérer vos clients.</p>
         {/* CARDS SECTION */}
         <div className="info-cards">
 
           <div className="info-card">
             <img src="/icons/analytics.png" />
-            <h3>Accés rapide <br />
-              Retrouvez vos données et vos leads en un clic. </h3>
+            <h3>Accès rapide <br />
+              Retrouvez vos données et vos clients en un clic. </h3>
           </div>
 
           <div className="info-card">

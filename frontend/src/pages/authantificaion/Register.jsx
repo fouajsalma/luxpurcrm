@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import api from "../../services/api";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function Register() {
 
       <div className="auth-left slide-left">
         <h1>Create your Account</h1>
-        <p>Gérez vos leads,suiver vos équipes et développez votre business.</p>
+        <p>Gérez vos clients, suivez vos équipes et développez votre business.</p>
         {/* CARDS SECTION */}
         <div className="info-cards">
 

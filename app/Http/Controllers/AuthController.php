@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'nom' => $googleUser['family_name'] ?? 'User',
                 'prenom' => $googleUser['given_name'] ?? 'Google',
                 'email' => $googleUser['email'],
-                'password' => bcrypt('google_' . uniqid()), // Mot de passe factice
+                'password' => 'google_' . uniqid(), // Mot de passe factice auto-haché par le cast
                 'avatar' => $googleUser['picture'] ?? null,
             ]);
         }
@@ -59,7 +59,7 @@ class AuthController extends Controller
         'nom' => $request->nom,
         'prenom' => $request->prenom,
         'email' => $request->email,
-        'password' => bcrypt($request->password),
+        'password' => $request->password,
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -77,7 +77,7 @@ class AuthController extends Controller
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Email ou mot de passe incorrect'
             ], 401);
         }
 
